@@ -105,13 +105,12 @@
 
   /* ---------------- modal + view stack ---------------- */
   var layer = $('#layer'), app = $('#app'), flow = $('#flow'), body = $('#flowBody'), hdr = $('#flowHeader');
-  var current = null, stack = [], lastFocus = null, view = null, heightTimer, timers = [];
+  var current = null, stack = [], view = null, heightTimer, timers = [];
   function later(fn, ms) { var id = setTimeout(fn, ms); timers.push(id); return id; }
   function clearTimers() { timers.forEach(clearTimeout); timers = []; }
 
   function openLayer() {
     if (!layer.hidden) return;
-    lastFocus = document.activeElement;
     layer.hidden = false; app.inert = true;
     requestAnimationFrame(function () { layer.classList.add('is-open'); });
   }
@@ -124,7 +123,7 @@
       flow.hidden = true; flow.classList.remove('is-out'); flow.style.height = '';
       body.innerHTML = ''; view = null; current = null; stack = [];
       stepLabel(S.read().withdrawn > 0 ? 'after' : 'trade');
-      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+      if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
       if (after) after();
     }, reduced ? 10 : 240);
   }
@@ -162,8 +161,10 @@
     if (INIT[name]) INIT[name](node, opt);
     var f = opt.focus !== undefined ? opt.focus : FOCUS[name];
     setTimeout(function () {
-      var el = f === null ? flow : (f ? $(f, node) : ($('.btn.buy:not(:disabled)', node) || $('.option:not(.ob)', node) || $('.btn', node)));
+      // Only text fields get focus; buttons are never pre-focused, so no focus ring "suggests" what to press.
+      var el = f ? $(f, node) : flow;
       if (el && el.focus) el.focus({ preventScroll: true });
+      if (el && el.tagName === 'INPUT' && el.value && !el.classList.contains('otp-d')) { try { el.setSelectionRange(el.value.length, el.value.length); } catch (e) {} }
     }, fresh ? 80 : 40);
   }
   function back() {
@@ -171,7 +172,7 @@
     var prev = stack.pop();
     go(prev, { noPush: true, back: true });
   }
-  var FOCUS = { amount: '#amt', signin: '#email', code: '.otp-d', bankForm: '#holder', auth: null, status: null };
+  var FOCUS = { amount: '#amt', signin: '#email', code: '.otp-d', bankForm: '#acctNo' };
 
   /* ---------------- routing between steps (follows the Figma arrows) ---------------- */
   // After Cash out: sign-in, then identity, then the bank step. A returning session skips
@@ -278,7 +279,6 @@
           d.value = v; d.classList.toggle('is-filled', !!v);
           if (v && ds[i + 1]) ds[i + 1].focus();
           sync();
-          if (code().length === 6) btn.focus();
         });
         d.addEventListener('keydown', function (e) {
           if (e.key === 'Backspace' && !d.value && ds[i - 1]) { ds[i - 1].value = ''; ds[i - 1].focus(); sync(); e.preventDefault(); }
@@ -292,7 +292,7 @@
       function spread(t, from) {
         for (var k = 0; k < t.length && from + k < 6; k++) { ds[from + k].value = t[k]; ds[from + k].classList.add('is-filled'); }
         var next = ds[Math.min(from + t.length, 5)]; sync();
-        (code().length === 6 ? btn : next).focus();
+        next.focus();
       }
       $('#resendBtn', node).addEventListener('click', function () { toast('Demo: a new code would be sent — any 6 digits work'); });
       btn.addEventListener('click', function () {
@@ -426,7 +426,7 @@
             S.update(function (s) { s.account.bank = F.draft; });
             resize(function () { setSteps(node, { partner: { s: 'done', label: 'Checked with payout partner' } }); });
             later(function () { setSteps(node, { ready: 'done' }); }, reduced ? 200 : 380);
-            later(function () { ready(true); cont.focus({ preventScroll: true }); }, reduced ? 400 : 760);
+            later(function () { ready(true); }, reduced ? 400 : 760);
           });
         }, 2000);
       }
@@ -496,7 +496,6 @@
     var b = $('#walletConfirm'); b.classList.remove('is-loading'); b.disabled = false;
     wallet.hidden = false; void wallet.offsetWidth;
     requestAnimationFrame(function () { wallet.classList.add('is-in'); });
-    setTimeout(function () { b.focus({ preventScroll: true }); }, 120);
   }
   function hideWallet() {
     if (wallet.hidden) return;

@@ -237,9 +237,6 @@ button { transition: background-color var(--t-fast) ease, color var(--t-fast) ea
 .btn.deposit { flex: 1; color: var(--text-brand); border: 1px solid transparent; background: linear-gradient(var(--bg-primary), var(--bg-primary)) padding-box, linear-gradient(100deg, #03de82 0%, #ffffff 47%, #017846 100%) border-box; }
 .btn.deposit:hover { background: linear-gradient(#0f1a16, #0f1a16) padding-box, linear-gradient(100deg, #03de82 0%, #ffffff 47%, #017846 100%) border-box; box-shadow: 0 0 0 3px rgba(3, 222, 130, .12); }
 .account .btn.secondary.sm { flex: 1; }
-.history-link { height: 20px; display: flex; align-items: center; gap: 6px; font-weight: 500; color: var(--text-secondary); border-radius: 4px; }
-.history-link span:first-of-type { text-decoration: underline; text-underline-offset: 3px; }
-.history-link:hover { color: var(--text-primary); }
 
 .estimates .row { justify-content: space-between; }
 .stack { display: flex; flex-direction: column; font-weight: 600; }
