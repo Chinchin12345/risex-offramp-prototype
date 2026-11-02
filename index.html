@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RISEx — Trade BTC</title>
+<meta name="description" content="Interactive desktop prototype of the RISEx off-ramp (USDC → VND bank withdrawal via Crossmint). Demo only — no real funds, wallet or identity checks.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/brand/logo-small.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/risex.css">
+</head>
+<body>
+<div class="app" id="app">
+  <!-- ============ Header ============ -->
+  <header class="hdr">
+    <button class="logo-btn ob" data-ob="Home" aria-label="RISEx home"><img src="assets/brand/logo-small.svg" alt="" width="36" height="36"></button>
+    <nav class="nav" aria-label="Main">
+      <button class="nav-item is-active ob" data-ob="Trade" aria-current="page">Trade</button>
+      <button class="nav-item ob" data-ob="Portfolio">Portfolio</button>
+      <button class="nav-item ob" data-ob="Points">Points</button>
+      <button class="nav-item ob" data-ob="Referrals">Referrals</button>
+      <button class="nav-item ob" data-ob="Vault">Vault</button>
+      <button class="nav-item ob" data-ob="Quant">Quant</button>
+      <button class="nav-item ob" data-ob="Competition">Competition</button>
+      <button class="nav-item ob" data-ob="Leaderboard">Leaderboard</button>
+      <button class="nav-item ob" data-ob="More">More<i data-icon="chevron-down-20-solid" class="i20"></i></button>
+    </nav>
+    <div class="hdr-spacer"></div>
+    <div class="hdr-actions">
+      <div class="chip"><span class="chip-l">Acct. Equity</span><span class="chip-v" data-bind="equity">$23.72</span></div>
+      <div class="chip"><span class="chip-l">Collat. Margin</span><span class="chip-v" data-bind="collat">$23.70</span></div>
+      <button class="icon-btn circle ob" data-ob="Notifications" aria-label="Notifications"><i data-icon="bell" class="i18"></i></button>
+      <button class="icon-btn circle ob" data-ob="Language" aria-label="Language"><i data-icon="language" class="i18"></i></button>
+      <button class="icon-btn circle ob" data-ob="Settings" aria-label="Settings"><i data-icon="cog" class="i18"></i></button>
+      <button class="avatar ob" data-ob="Account menu" aria-label="Account menu"><img src="assets/brand/avatar.png" alt="" width="36" height="36"></button>
+    </div>
+  </header>
+
+  <!-- ============ Workspace ============ -->
+  <main class="ws">
+    <section class="ws-left">
+      <div class="top-row">
+        <div class="panel market">
+          <img src="assets/brand/asset-btc.svg" alt="" width="20" height="20">
+          <button class="market-name ob" data-ob="Market selector">
+            <span class="sym-row"><span class="sym">BTC</span><span class="badge brand">25x</span><i data-icon="chevron-down-outline" class="i16 muted"></i></span>
+            <span class="sym-name">Bitcoin</span>
+          </button>
+          <span class="kbd">⌘K</span>
+          <button class="icon-btn rounded s32 ob" data-ob="Search markets" aria-label="Search markets"><i data-icon="magnifying-glass" class="i18"></i></button>
+        </div>
+        <div class="panel stats">
+          <div class="metric"><span class="m-l u">Mark</span><span class="m-v">77,381.5</span></div>
+          <div class="metric"><span class="m-l u">Index</span><span class="m-v">77,379.4</span></div>
+          <div class="metric"><span class="m-l">24h Change</span><span class="m-v err">-$193.8 (-0.25%)</span></div>
+          <div class="metric"><span class="m-l">24h Volume</span><span class="m-v">40,518,853.995</span></div>
+          <div class="metric"><span class="m-l u">Open Interest</span><span class="m-v">$17,525,999</span></div>
+          <div class="metric"><span class="m-l u">Funding (1h) / Next Funding</span><span class="m-v brand">0.000576% | 18:32</span></div>
+        </div>
+      </div>
+      <div class="mid-row">
+        <div class="panel chart">
+          <div class="chart-toolbar">
+            <div class="intervals" role="group" aria-label="Chart interval">
+              <button class="tf ob" data-ob="1m">1m</button><button class="tf ob" data-ob="5m">5m</button><button class="tf ob" data-ob="15m">15m</button><button class="tf ob" data-ob="30m">30m</button><button class="tf is-active ob" data-ob="1h" aria-pressed="true">1h</button><button class="tf ob" data-ob="4h">4h</button><button class="tf ob" data-ob="1D">1D</button><button class="tf ob" data-ob="1W">1W</button>
+              <button class="tf tf-more ob" data-ob="More intervals" aria-label="More intervals"><i data-icon="chevron-down-stroke2" class="i12"></i></button>
+            </div>
+            <div class="tools">
+              <button class="tool ob" data-ob="Chart type" aria-label="Chart type"><i data-icon="chart-candles" class="i20"></i></button>
+              <button class="tool ob" data-ob="Indicators" aria-label="Indicators"><i data-icon="chart-indicators" class="i20"></i></button>
+              <button class="tool ob" data-ob="Fullscreen" aria-label="Fullscreen"><i data-icon="arrows-pointing-out" class="i20"></i></button>
+              <button class="tool ob" data-ob="Screenshot" aria-label="Screenshot"><i data-icon="camera" class="i20"></i></button>
+              <button class="tool ob" data-ob="Chart settings" aria-label="Chart settings"><i data-icon="cog-stroke2" class="i20"></i></button>
+              <button class="tool ob" data-ob="Reset chart" aria-label="Reset chart"><i data-icon="arrow-path" class="i20"></i></button>
+            </div>
+            <div class="flex1"></div>
+            <button class="oct ob" data-ob="One-click Trading" role="switch" aria-checked="false"><i data-icon="bolt-outline" class="i14"></i><span>One-click Trading</span><span class="switch"><span class="knob"></span></span></button>
+          </div>
+          <div class="chart-canvas">
+            <img src="assets/brand/chart@2x.png" alt="BTC 1h candlestick chart (static image)" draggable="false">
+          </div>
+        </div>
+        <div class="panel ob-panel">
+          <div class="tabs">
+            <button class="tab is-active ob" data-ob="Orderbook">Orderbook</button>
+            <button class="tab ob" data-ob="Trades">Trade</button>
+          </div>
+          <div class="ob-controls">
+            <div class="ob-views">
+              <button class="mini ob" data-ob="Orderbook view" aria-label="Both sides"><i data-icon="order-book-default" class="i16"></i></button>
+              <button class="mini ob" data-ob="Orderbook view" aria-label="Bids only"><i data-icon="order-book-bid" class="i16"></i></button>
+              <button class="mini ob" data-ob="Orderbook view" aria-label="Asks only"><i data-icon="order-book-ask" class="i16"></i></button>
+            </div>
+            <div class="flex1"></div>
+            <i data-icon="bolt-solid" class="i18"></i>
+            <button class="inline-select ob" data-ob="Price grouping">1<i data-icon="chevron-down-stroke2" class="i18"></i></button>
+            <button class="inline-select ob" data-ob="Size unit">USDC<i data-icon="arrows-right-left" class="i18"></i></button>
+          </div>
+          <div class="ob-head"><span>Price</span><span class="r">Size</span><span class="r">Total</span></div>
+          <div class="ob-rows asks" id="asks"></div>
+          <div class="ob-mid"><span class="mid-px">77,384.5</span><span class="flex1"></span><span class="spread">0.1bps</span><i data-icon="arrows-right-left-16" class="i16"></i></div>
+          <div class="ob-rows bids" id="bids"></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="ws-right">
+      <div class="panel order-form">
+        <div class="row g8">
+          <button class="select-trigger ob" data-ob="Margin mode">Cross<i data-icon="chevron-down-stroke2" class="i18"></i></button>
+          <button class="select-trigger ob" data-ob="Leverage">2x<i data-icon="chevron-down-stroke2" class="i18"></i></button>
+        </div>
+        <div class="tabs order-tabs">
+          <button class="tab ob" data-ob="Market order">Market</button>
+          <button class="tab is-active ob" data-ob="Limit order">Limit</button>
+          <button class="tab ob" data-ob="Advanced orders">Advanced<i data-icon="chevron-down-stroke2" class="i16"></i></button>
+        </div>
+        <div class="stat-row"><span class="s-l">Available Balance</span><span class="s-v white" data-bind="available">15.09 USDC</span></div>
+        <div class="col g8">
+          <label class="amount-field ob-field" data-ob="Price"><span class="f-l">Price (USDC)</span><span class="f-v">77,384.4</span><span class="f-a">Mid</span></label>
+          <label class="amount-field ob-field" data-ob="Size"><span class="f-l">Size</span><span class="f-v placeholder">0.0</span><span class="f-unit">BTC<i data-icon="arrows-right-left-16" class="i16"></i></span></label>
+          <div class="row g8 slider-row">
+            <div class="slider ob-field" data-ob="Size slider"><span class="track"></span><span class="tick" style="left:0"></span><span class="tick" style="left:25%"></span><span class="tick" style="left:50%"></span><span class="tick" style="left:75%"></span><span class="tick" style="left:100%"></span><span class="handle"></span></div>
+            <div class="pct-field ob-field" data-ob="Size percent"><span class="pv">0</span><span>%</span></div>
+          </div>
+        </div>
+        <div class="row g12 opts">
+          <button class="cb-row ob" data-ob="Post-only" role="checkbox" aria-checked="false"><span class="cb"></span>Post-only</button>
+          <button class="cb-row ob" data-ob="Reduce-only" role="checkbox" aria-checked="false"><span class="cb"></span>Reduce-only</button>
+          <span class="flex1"></span>
+          <button class="inline-select tif ob" data-ob="Time in force"><span class="u">TIF</span><i data-icon="chevron-down-stroke2" class="i18"></i></button>
+        </div>
+        <div class="row g8">
+          <button class="btn buy md ob" data-ob="Buy">Buy</button>
+          <button class="btn sell md ob" data-ob="Sell">Sell</button>
+        </div>
+        <div class="col g10 estimates">
+          <div class="row"><div class="stack"><span>Est. Liq. Price</span><b>-</b></div><div class="stack r"><span>Est. Liq. Price</span><b>-</b></div></div>
+          <div class="row"><div class="stack"><span>Margin Required</span><b>-</b></div><div class="stack r"><span>Margin Required</span><b>-</b></div></div>
+        </div>
+      </div>
+      <div class="panel account">
+        <div class="row g8">
+          <button class="btn deposit sm ob" data-ob="Deposit">Deposit</button>
+          <button class="btn secondary sm" id="withdrawBtn" aria-haspopup="dialog">Withdraw</button>
+        </div>
+        <button class="history-link ob" data-ob="Transaction history"><i data-icon="clock" class="i14"></i><span>Transaction history</span><span class="flex1"></span><i data-icon="chevron-right" class="i14"></i></button>
+        <div class="col g8">
+          <div class="stat-row"><span class="s-l">Account Equity</span><span class="s-v" data-bind="equity">$23.72</span></div>
+          <div class="stat-row"><span class="s-l">Unrealized PnL</span><span class="s-v">$0.02</span></div>
+        </div>
+        <div class="col g8">
+          <div class="stat-row"><span class="s-l">Account Leverage</span><span class="s-v" data-bind="leverage">0.73x</span></div>
+          <div class="stat-row"><span class="s-l">Maintenance Margin</span><span class="s-v">-</span></div>
+          <div class="stat-row"><span class="s-l">Margin Usage</span><span class="s-v">0.00%</span></div>
+          <div class="stat-row"><span class="s-l">Liquidation Risk</span><span class="s-v">0.00%</span></div>
+          <div class="risk-meter" id="risk" aria-hidden="true"></div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ============ Footer ============ -->
+  <footer class="ftr">
+    <button class="ftr-logo ob" data-ob="Home" aria-label="RISEx"><img src="assets/brand/logo-small.svg" alt="" width="16" height="16"></button>
+    <span class="sys"><span class="dot"><span class="ping"></span></span>System Status</span>
+    <div class="ticker" id="ticker"></div>
+    <div class="ftr-links">
+      <button class="icon-btn s28 ob" data-ob="Discord" aria-label="Discord"><i data-icon="discord" class="i18"></i></button>
+      <button class="icon-btn s28 ob" data-ob="API reference" aria-label="API reference"><i data-icon="code-bracket" class="i18"></i></button>
+      <button class="icon-btn s28 ob" data-ob="Security policy" aria-label="Security policy"><i data-icon="shield" class="i18"></i></button>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ============ Modal layer ============ -->
+<div class="layer" id="layer" hidden>
+  <div class="overlay" id="overlay"></div>
+  <!-- One RISEx modal; each step swaps its body (Figma 02 – 11) -->
+  <div class="modal flow" id="flow" role="dialog" aria-modal="true" aria-labelledby="flowTitle" hidden>
+    <div class="modal-header" id="flowHeader">
+      <button class="icon-btn rounded s28 ghost" id="backBtn" data-action="back" aria-label="Back"><i data-icon="chevron-left" class="i18"></i></button>
+      <h2 id="flowTitle">Withdraw</h2>
+      <button class="icon-btn rounded s28 ghost" id="closeBtn" data-action="close" aria-label="Close"><i data-icon="x-mark" class="i18"></i></button>
+    </div>
+    <div class="flow-body" id="flowBody"></div>
+  </div>
+</div>
+
+<!-- 09b · wallet confirmation (stands in for the wallet extension pop-up shown in Figma) -->
+<aside class="wallet" id="wallet" role="dialog" aria-modal="false" aria-labelledby="walletTitle" hidden>
+  <div class="wl-bar"><span class="wl-ic"><i data-icon="wallet" class="i16"></i></span><span class="wl-app">Ví demo</span><span class="wl-tag">DEMO</span><span class="flex1"></span><button class="wl-x ob" data-ob="Close wallet" aria-label="Đóng ví"><i data-icon="x-mark" class="i16"></i></button></div>
+  <div class="wl-acct"><span class="wl-av" aria-hidden="true"></span><span class="wl-name">Account 1</span><span class="wl-addr" data-w="addr">Wallet (...035a)</span></div>
+  <h2 class="wl-title" id="walletTitle">Yêu cầu giao dịch</h2>
+  <div class="wl-card">
+    <div class="wl-row"><span>Thay đổi ước tính</span></div>
+    <div class="wl-row"><span>Bạn gửi</span><b class="wl-neg"><span data-w="usdc">− 15,00</span> <img src="assets/brand/asset-usdc.svg" alt="" width="16" height="16"> USDC</b></div>
+    <div class="wl-row sub"><span></span><span data-w="usd">15,00 US$</span></div>
+  </div>
+  <div class="wl-card">
+    <div class="wl-row"><span>Mạng</span><b>Base</b></div>
+    <div class="wl-row"><span>Yêu cầu từ</span><b data-w="origin">RISEx</b></div>
+    <div class="wl-row"><span>Tương tác với</span><b>Crossmint (demo)</b></div>
+  </div>
+  <div class="wl-card">
+    <div class="wl-row"><span>Phí mạng</span><b>&lt; 0,01 US$</b></div>
+    <div class="wl-row"><span>Tốc độ</span><b>Thị trường ~2 giây</b></div>
+  </div>
+  <p class="wl-note">Bản demo: không ký hay gửi giao dịch thật.</p>
+  <div class="wl-actions">
+    <button class="wl-btn ghost ob" data-ob="Reject in wallet">Hủy</button>
+    <button class="wl-btn solid" id="walletConfirm"><span class="btn-label">Xác nhận</span></button>
+  </div>
+</aside>
+
+<!-- 12 · Funds sent notification -->
+<div class="notice-toast" id="fundsToast" role="status" aria-live="polite" hidden>
+  <i data-icon="check-circle" class="i20 nt-ic"></i>
+  <div class="nt-tx"><b>Funds sent</b><span data-t="body">386,100 VND to ACB •••• 4821 · ORD-7F3K-92QX</span><button class="nt-link" id="viewDetails">View details</button></div>
+  <button class="icon-btn rounded s28 ghost" id="fundsToastClose" aria-label="Dismiss"><i data-icon="x-mark" class="i18"></i></button>
+</div>
+
+<!-- ============ Step templates (bodies) ============ -->
+<template id="v-dest">
+  <div class="view" data-title="Withdraw" data-noback>
+    <p class="lead-l">Where do you want to withdraw?</p>
+    <div class="options">
+      <button class="option ob" data-ob="To Wallet"><span class="o-ic"><i data-icon="wallet" class="i20"></i></span><span class="o-tx"><b>To Wallet</b><small>Withdraw crypto to your wallet</small></span></button>
+      <button class="option" id="optBank"><span class="o-ic"><i data-icon="building-library" class="i20"></i></span><span class="o-tx"><b>To Bank Account</b><small>Convert USDC and withdraw to your bank</small></span></button>
+    </div>
+  </div>
+</template>
+
+<template id="v-amount">
+  <div class="view" data-title="Cash out">
+    <div class="info-row"><span>Available to withdraw</span><b data-f="avail">15.09 USDC</b></div>
+    <div class="collapsible" data-when="valid"><div class="notice info"><i data-icon="information-circle" class="i16"></i><p>Funds used as margin for open positions or reserved by open orders are not included. Account Equity (<span data-f="equity">$23.72</span>) can be higher than what you can withdraw.</p></div></div>
+    <div class="field">
+      <label class="f-label" for="amt">You withdraw</label>
+      <div class="input" id="amtBox"><input id="amt" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="amtErr" value="15.00"><button class="max-btn" id="maxBtn" type="button">Max</button><span class="suffix">USDC</span></div>
+      <div class="collapsible" data-when="invalid"><p class="f-help err" id="amtErr" aria-live="polite"></p></div>
+    </div>
+    <div class="two">
+      <div class="field"><span class="f-label">Receiving country</span><button class="input select ob" data-ob="Receiving country (Vietnam only in this demo)"><span>Vietnam</span><i data-icon="chevron-down" class="i16"></i></button></div>
+      <div class="field"><span class="f-label">You receive in</span><button class="input select ob" data-ob="Receive currency (VND only in this demo)"><span>VND</span><i data-icon="chevron-down" class="i16"></i></button></div>
+    </div>
+    <div class="est">
+      <div class="sum-row"><span>Estimated receive</span><b data-f="est">≈ 386,100 VND</b></div>
+      <div class="collapsible" data-when="valid"><p class="cap t">Estimate only. The final rate and fees are shown on Review before you confirm.</p></div>
+    </div>
+    <button class="btn buy md wide" id="amountContinue"><span class="btn-label">Continue</span></button>
+    <div class="collapsible" data-when="valid"><div class="powered"><span>Powered by</span><img src="assets/brand/brand-crossmint-wordmark-on-dark-.png" alt="crossmint" width="72" height="16"></div></div>
+  </div>
+</template>
+
+<template id="v-signin">
+  <div class="view" data-title="Sign in to continue">
+    <p class="copy">Bank withdrawals are processed by Crossmint. Enter your email to continue - your amount (<span data-f="usdc">15.00</span> USDC) is saved.</p>
+    <div class="field">
+      <label class="f-label" for="email">Email</label>
+      <div class="input"><input id="email" type="email" autocomplete="off" spellcheck="false" aria-describedby="emailErr" placeholder="you@example.com"></div>
+      <div class="collapsible"><p class="f-help err" id="emailErr" aria-live="polite"></p></div>
+    </div>
+    <div class="or"><span></span>or<span></span></div>
+    <button class="btn secondary md wide ob" data-ob="Continue with Google (this demo follows the email sign-in)">Google<i data-icon="google" class="i20"></i></button>
+    <button class="btn buy md wide" id="signinContinue"><span class="btn-label">Continue</span></button>
+    <div class="powered"><span>Powered by</span><img src="assets/brand/brand-crossmint-wordmark-on-dark-.png" alt="crossmint" width="72" height="16"></div>
+  </div>
+</template>
+
+<template id="v-code">
+  <div class="view center" data-title="Check your email">
+    <p class="copy c">Enter the 6-digit code we sent to <span data-f="email">an@example.com</span>.</p>
+    <div class="otp" role="group" aria-label="6-digit code">
+      <input class="otp-d" inputmode="numeric" maxlength="1" aria-label="Digit 1" autocomplete="one-time-code"><input class="otp-d" inputmode="numeric" maxlength="1" aria-label="Digit 2"><input class="otp-d" inputmode="numeric" maxlength="1" aria-label="Digit 3"><input class="otp-d" inputmode="numeric" maxlength="1" aria-label="Digit 4"><input class="otp-d" inputmode="numeric" maxlength="1" aria-label="Digit 5"><input class="otp-d" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+    </div>
+    <p class="resend">Didn't get it? <button class="resend-b" id="resendBtn">Resend code</button></p>
+    <button class="btn buy md wide" id="verifyBtn" disabled><span class="btn-label">Verify</span></button>
+    <p class="cap t c">After verification you return to Cash out with <span data-f="usdc">15.00</span> USDC kept.</p>
+    <div class="powered"><span>Powered by</span><img src="assets/brand/brand-crossmint-wordmark-on-dark-.png" alt="crossmint" width="72" height="16"></div>
+  </div>
+</template>
+
+<template id="v-kycReq">
+  <div class="view" data-title="Verify your identity">
+    <div class="hero"><span class="hero-ic"><i data-icon="identification" class="i24"></i></span><h3>Verification required to withdraw to a bank</h3><p>To send money to a bank account, your identity must be verified for withdrawals. Signing in or a previous deposit does not complete this check.</p></div>
+    <div class="notice info"><i data-icon="information-circle" class="i16"></i><p>What's needed depends on your country and account. Crossmint's verification process tells you exactly what to provide.</p></div>
+    <div class="actions"><button class="btn secondary md ob" data-ob="Not now">Not now</button><button class="btn buy md" id="kycStart"><span class="btn-label">Verify identity</span></button></div>
+  </div>
+</template>
+
+<template id="v-kycStep">
+  <div class="view" data-title="Verify your identity">
+    <div class="cm-area">
+      <div class="cm-head"><i data-icon="shield-check" class="i16"></i><b>Identity verification · handled by Crossmint</b></div>
+      <p class="cap s">The steps and information requested here come from Crossmint's supported verification process.</p>
+      <span class="ph" style="width:100%"></span><span class="ph" style="width:84%"></span><span class="ph" style="width:93%"></span>
+      <button class="btn buy md wide" id="kycSubmit"><span class="btn-label">Submit for review</span></button>
+    </div>
+    <div class="notice info"><i data-icon="information-circle" class="i16"></i><p>Your withdrawal of <span data-f="usdc">15.00</span> USDC is saved. You will come back here when verification finishes.</p></div>
+  </div>
+</template>
+
+<template id="v-kycProgress">
+  <div class="view" data-title="Verify your identity">
+    <div class="hero"><span class="hero-ic"><i data-icon="clock" class="i24"></i></span><h3>Verification in progress</h3><p>This can take a few minutes. You can close this window — we keep your withdrawal details and notify you when it is done.</p></div>
+    <ol class="ssteps" aria-live="polite">
+      <li class="sstep" data-k="submitted"><span class="ss-tx"><b>Information submitted</b></span><span class="ind"></span></li>
+      <li class="sconn" aria-hidden="true"></li>
+      <li class="sstep" data-k="review"><span class="ss-tx"><b>Review by Crossmint</b><small></small></span><span class="ind"></span></li>
+      <li class="sconn" aria-hidden="true"></li>
+      <li class="sstep" data-k="enabled"><span class="ss-tx"><b>Withdrawals to bank enabled</b></span><span class="ind"></span></li>
+    </ol>
+    <div class="actions"><button class="btn secondary md" id="kycClose">Close</button><button class="btn buy md" id="kycRefresh"><span class="btn-label">Refresh status</span></button></div>
+  </div>
+</template>
+
+<template id="v-kycDone">
+  <div class="view" data-title="Verify your identity">
+    <div class="hero ok"><span class="hero-ic"><i data-icon="check-circle" class="i24"></i></span><h3>Identity verified</h3><p>You can now withdraw to a bank account in your own name.</p></div>
+    <div class="notice success"><i data-icon="check-circle" class="i16"></i><div><b>Verified for bank withdrawals</b><p>Continuing with <span data-f="usdc">15.00</span> USDC → VND.</p></div></div>
+    <button class="btn buy md wide" id="kycContinue"><span class="btn-label">Continue</span></button>
+  </div>
+</template>
+
+<template id="v-bankNone">
+  <div class="view" data-title="Bank account">
+    <div class="hero"><span class="hero-ic"><i data-icon="building-library" class="i24"></i></span><h3>No bank account yet</h3><p>Add a Vietnamese bank account in your own name to receive VND.</p></div>
+    <button class="btn buy md wide" id="addBank"><span class="btn-label">Add bank account</span></button>
+  </div>
+</template>
+
+<template id="v-bankSaved">
+  <div class="view" data-title="Bank account">
+    <p class="copy s">Choose where to receive VND. Only accounts in your own name can receive withdrawals.</p>
+    <div class="options" role="radiogroup" aria-label="Saved bank accounts" id="savedList"></div>
+    <button class="btn secondary md wide ob" data-ob="Add another bank account">+ Add bank account</button>
+    <button class="btn buy md wide" id="savedContinue"><span class="btn-label">Continue</span></button>
+  </div>
+</template>
+
+<template id="v-bankForm">
+  <div class="view" data-title="Add bank account">
+    <div class="field"><span class="f-label">Country</span><button class="input select ob" data-ob="Country (Vietnam only in this demo)"><span>Vietnam</span><i data-icon="chevron-down" class="i16"></i></button></div>
+    <div class="field">
+      <span class="f-label" id="bankLbl">Bank</span>
+      <div class="dd" id="bankDd">
+        <button class="input select" id="bankTrigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="bankLbl bankTrigger"><span data-f="bankName">ACB — Asia Commercial Bank</span><i data-icon="chevron-down" class="i16"></i></button>
+        <ul class="dd-list" id="bankList" role="listbox" aria-labelledby="bankLbl" tabindex="-1" hidden></ul>
+      </div>
+    </div>
+    <div class="field">
+      <label class="f-label" for="holder">Account holder name</label>
+      <div class="input"><input id="holder" autocomplete="off" spellcheck="false" aria-describedby="holderHelp"></div>
+      <p class="f-help" id="holderHelp" data-default="Full legal name, as verified for your account.">Full legal name, as verified for your account.</p>
+    </div>
+    <div class="field">
+      <label class="f-label" for="acctNo">Account number</label>
+      <div class="input"><input id="acctNo" inputmode="numeric" autocomplete="off" spellcheck="false" aria-describedby="acctErr"></div>
+      <div class="collapsible"><p class="f-help err" id="acctErr" aria-live="polite"></p></div>
+    </div>
+    <div class="info-row"><span>Receive currency</span><b>VND</b></div>
+    <div class="notice warning"><i data-icon="exclamation-triangle" class="i16"></i><div><b>Must be your own account</b><p>Withdrawals can only go to a bank account in your name. Payments to third parties are not supported.</p></div></div>
+    <button class="btn buy md wide" id="bankSave"><span class="btn-label">Save and continue</span></button>
+  </div>
+</template>
+
+<template id="v-bankCheck">
+  <div class="view" data-title="Add bank account">
+    <div class="hero" data-hero="check"><span class="hero-ic"><i data-icon="arrow-path" class="i24 spin-slow"></i></span><h3>Checking bank account</h3><p>Confirming <span data-f="bankShort">ACB •••• 4821</span> can receive VND payouts. This usually takes a moment, but can take longer.</p></div>
+    <ol class="ssteps" aria-live="polite">
+      <li class="sstep" data-k="details"><span class="ss-tx"><b>Details submitted</b></span><span class="ind"></span></li>
+      <li class="sconn" aria-hidden="true"></li>
+      <li class="sstep" data-k="partner"><span class="ss-tx"><b>Checking with payout partner</b><small></small></span><span class="ind"></span></li>
+      <li class="sconn" aria-hidden="true"></li>
+      <li class="sstep" data-k="ready"><span class="ss-tx"><b>Ready to receive VND</b></span><span class="ind"></span></li>
+    </ol>
+    <button class="btn buy md wide" id="bankContinue" disabled><span class="btn-label">Continue</span></button>
+    <p class="cap t" data-hide-ready>You can only continue once the account is ready (active) and supports a VND payout method.</p>
+  </div>
+</template>
+
+<template id="v-review">
+  <div class="view g12" data-title="Review withdrawal">
+    <div class="rows">
+      <div class="info-row"><span>You withdraw</span><b data-f="usdcU">15.00 USDC</b></div>
+      <div class="info-row"><span>Processing fee</span><b data-f="fee">− 0.15 USDC</b></div>
+      <div class="info-row"><span>Amount converted</span><b data-f="converted">14.85 USDC</b></div>
+      <div class="info-row"><span>Exchange rate</span><b data-f="rate">1 USDC = 26,000 VND</b></div>
+      <div class="info-row"><span>Network fee</span><b>Paid from your wallet · shown when you sign</b></div>
+    </div>
+    <hr class="div">
+    <div class="sum-row"><span>You receive</span><b data-f="vnd">386,100 VND</b></div>
+    <hr class="div">
+    <div class="rows">
+      <div class="info-row"><span>To</span><b data-f="bankFull">ACB — Asia Commercial Bank •••• 4821</b></div>
+      <div class="info-row"><span>Recipient</span><b data-f="holder">NGUYEN VAN AN</b></div>
+      <div class="info-row"><span>Estimated arrival</span><b>Up to 3 business days</b></div>
+      <p class="cap t">The payout bank selects Napas 247 (can be instant) or CITAD (up to 3 business days); you can’t choose. Timing starts after your USDC is received. Arrival time depends on your bank and the payment network. Business days exclude weekends and bank holidays.</p>
+    </div>
+    <div class="quote-timer"><i data-icon="clock" class="i16"></i><span>Quote expires in <span data-f="timer">10:00</span></span></div>
+    <label class="check-row"><input type="checkbox" id="agree"><span class="cbx" aria-hidden="true"><i data-icon="check" class="i12"></i></span><span>I agree to Crossmint's Terms of Service and Privacy Policy.</span></label>
+    <div class="actions"><button class="btn secondary md" id="reviewBack">Back</button><button class="btn buy md" id="confirmWithdraw" disabled><span class="btn-label">Confirm withdrawal</span></button></div>
+  </div>
+</template>
+
+<template id="v-auth">
+  <div class="view" data-title="Confirm withdrawal" data-noback>
+    <div class="hero" data-hero="prep"><span class="hero-ic"><i data-icon="arrow-path" class="i24 spin-slow"></i></span><h3>Preparing funds for withdrawal</h3><p>Making <span data-f="usdc">15.00</span> USDC from your RISEx trading account available to send to Crossmint.</p></div>
+    <div class="hero" data-hero="wallet" hidden><span class="hero-ic"><i data-icon="wallet" class="i24"></i></span><h3>Confirm in your wallet</h3><p>Approve sending <span data-f="usdc">15.00</span> USDC from Wallet (...035a) to create this withdrawal. Nothing is sent until you confirm.</p></div>
+    <ol class="ssteps" aria-live="polite">
+      <li class="sstep" data-k="quote"><span class="ss-tx"><b>Quote locked</b></span><span class="ind"></span></li>
+      <li class="sconn" aria-hidden="true"></li>
+      <li class="sstep" data-k="prep"><span class="ss-tx"><b>Preparing funds</b></span><span class="ind"></span></li>
+      <li class="sconn" aria-hidden="true"></li>
+      <li class="sstep" data-k="third"><span class="ss-tx"><b>Confirm in your wallet</b></span><span class="ind"></span></li>
+    </ol>
+    <div class="actions" data-auth="prep"><button class="btn secondary md ob" data-ob="Cancel withdrawal">Cancel</button><button class="btn md" disabled>Preparing…</button></div>
+    <div class="actions" data-auth="wallet" hidden><button class="btn secondary md wide ob" data-ob="Cancel withdrawal">Cancel</button></div>
+  </div>
+</template>
+
+<template id="v-status">
+  <div class="view" data-title="Withdrawal status" data-noback>
+    <div class="rows">
+      <div class="info-row"><span>You withdraw</span><b data-f="usdcU">15.00 USDC</b></div>
+      <div class="sum-row"><span>You receive</span><b data-f="vnd">386,100 VND</b></div>
+      <div class="info-row"><span>To</span><b data-f="bankShort">ACB •••• 4821</b></div>
+      <div class="info-row"><span>Transaction ID</span><b data-f="orderId">ORD-7F3K-92QX</b></div>
+    </div>
+    <hr class="div">
+    <ol class="ssteps" aria-live="polite">
+      <li class="sstep" data-k="created"><span class="ss-tx"><b>Withdrawal created</b></span><span class="ind"></span></li>
+      <li class="sconn" aria-hidden="true"></li>
+      <li class="sstep" data-k="transfer"><span class="ss-tx"><b>Confirming USDC transfer</b><small></small></span><span class="ind"></span></li>
+      <li class="sconn" aria-hidden="true"></li>
+      <li class="sstep" data-k="received"><span class="ss-tx"><b>USDC received</b><small></small></span><span class="ind"></span></li>
+      <li class="sconn" aria-hidden="true"></li>
+      <li class="sstep" data-k="bank"><span class="ss-tx"><b>Bank transfer</b><small></small></span><span class="ind"></span></li>
+      <li class="sconn" aria-hidden="true"></li>
+      <li class="sstep" data-k="sent"><span class="ss-tx"><b>Funds sent</b><small></small></span><span class="ind"></span></li>
+    </ol>
+    <div class="collapsible" data-stage="1"><div class="notice info"><i data-icon="information-circle" class="i16"></i><p>USDC received does not mean money is in your bank yet. We will update you when the bank transfer is sent.</p></div></div>
+    <div class="collapsible" data-stage="0 1 2"><div class="rows eta">
+      <div class="info-row"><span>Estimated arrival</span><b data-f="eta">Checking estimated arrival…</b></div>
+      <div class="collapsible" data-stage="2"><p class="cap t">Paid via CITAD (selected by the payout bank). Arrival time depends on your bank and the payment network. Business days exclude weekends and bank holidays.</p></div>
+    </div></div>
+    <p class="cap s" data-f="closeNote">You can close this window. Track your withdrawal in Portfolio → Transactions.</p>
+    <button class="btn secondary md wide" id="statusBack">Back to Trade</button>
+  </div>
+</template>
+
+<template id="v-result">
+  <div class="view" data-title="Withdrawal" data-noback>
+    <div class="hero ok"><span class="hero-ic"><i data-icon="check-circle" class="i24"></i></span><h3>Funds sent</h3><p><span data-f="vnd">386,100 VND</span> was sent to your bank. Arrival time depends on your bank and the payment network. Business days exclude weekends and bank holidays.</p></div>
+    <div class="rows">
+      <div class="info-row"><span>Amount withdrawn</span><b data-f="usdcU">15.00 USDC</b></div>
+      <div class="sum-row"><span>Amount sent</span><b data-f="vnd">386,100 VND</b></div>
+      <div class="info-row"><span>Bank</span><b data-f="bankFull">ACB — Asia Commercial Bank •••• 4821</b></div>
+      <div class="info-row"><span>Recipient</span><b data-f="holder">NGUYEN VAN AN</b></div>
+      <div class="info-row"><span>Transaction ID</span><b data-f="orderId">ORD-7F3K-92QX</b></div>
+    </div>
+    <p class="cap t">“Sent” confirms the payout partner sent the transfer. Your bank balance may update later.</p>
+    <button class="btn secondary md wide" id="resultBack">Back to Trade</button>
+  </div>
+</template>
+
+<!-- Feedback toast (product) -->
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<!-- Prototype controls — not part of the product UI -->
+<aside class="demo" id="demo" aria-label="Prototype controls">
+  <span class="demo-tag">PROTOTYPE</span>
+  <span class="demo-step" id="demoStep">01 · Trade — click Withdraw</span>
+  <button class="demo-btn" id="restartBtn">Restart demo</button>
+</aside>
+
+<script src="assets/icons.js"></script>
+<script src="assets/store.js"></script>
+<script src="assets/risex.js"></script>
+</body>
+</html>
