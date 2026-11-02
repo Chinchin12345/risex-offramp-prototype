@@ -236,7 +236,7 @@
 <template id="v-amount">
   <div class="view" data-title="Cash out">
     <div class="info-row"><span>Available to withdraw</span><b data-f="avail">15.09 USDC</b></div>
-    <div class="collapsible" data-when="valid"><div class="notice info"><i data-icon="information-circle" class="i16"></i><p>Funds used as margin for open positions or reserved by open orders are not included. Account Equity (<span data-f="equity">$23.72</span>) can be higher than what you can withdraw.</p></div></div>
+    <div class="collapsible" data-when="valid"><div><div class="notice info"><i data-icon="information-circle" class="i16"></i><p>Funds used as margin for open positions or reserved by open orders are not included. Account Equity (<span data-f="equity">$23.72</span>) can be higher than what you can withdraw.</p></div></div></div>
     <div class="field">
       <label class="f-label" for="amt">You withdraw</label>
       <div class="input" id="amtBox"><input id="amt" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="amtErr" value="15.00"><button class="max-btn" id="maxBtn" type="button">Max</button><span class="suffix">USDC</span></div>
@@ -251,7 +251,7 @@
       <div class="collapsible" data-when="valid"><p class="cap t">Estimate only. The final rate and fees are shown on Review before you confirm.</p></div>
     </div>
     <button class="btn buy md wide" id="amountContinue"><span class="btn-label">Continue</span></button>
-    <div class="collapsible" data-when="valid"><div class="powered"><span>Powered by</span><img src="assets/brand/brand-crossmint-wordmark-on-dark-.png" alt="crossmint" width="72" height="16"></div></div>
+    <div class="collapsible" data-when="valid"><div><div class="powered"><span>Powered by</span><img src="assets/brand/brand-crossmint-wordmark-on-dark-.png" alt="crossmint" width="72" height="16"></div></div></div>
   </div>
 </template>
 
@@ -285,9 +285,9 @@
 
 <template id="v-kycReq">
   <div class="view" data-title="Verify your identity">
-    <div class="hero"><span class="hero-ic"><i data-icon="identification" class="i24"></i></span><h3>Verification required to withdraw to a bank</h3><p>To send money to a bank account, your identity must be verified for withdrawals. Signing in or a previous deposit does not complete this check.</p></div>
-    <div class="notice info"><i data-icon="information-circle" class="i16"></i><p>What's needed depends on your country and account. Crossmint's verification process tells you exactly what to provide.</p></div>
+    <div class="hero"><span class="hero-ic"><i data-icon="identification" class="i24"></i></span><h3>Verification required to withdraw to a bank</h3><p class="narrow">To send money to a bank account, your identity must be verified for withdrawals.</p></div>
     <div class="actions"><button class="btn secondary md ob" data-ob="Not now">Not now</button><button class="btn buy md" id="kycStart"><span class="btn-label">Verify identity</span></button></div>
+    <div class="powered"><span>Powered by</span><img src="assets/brand/brand-crossmint-wordmark-on-dark-.png" alt="crossmint" width="72" height="16"></div>
   </div>
 </template>
 
@@ -299,7 +299,7 @@
       <span class="ph" style="width:100%"></span><span class="ph" style="width:84%"></span><span class="ph" style="width:93%"></span>
       <button class="btn buy md wide" id="kycSubmit"><span class="btn-label">Submit for review</span></button>
     </div>
-    <div class="notice info"><i data-icon="information-circle" class="i16"></i><p>Your withdrawal of <span data-f="usdc">15.00</span> USDC is saved. You will come back here when verification finishes.</p></div>
+    <div class="powered"><span>Powered by</span><img src="assets/brand/brand-crossmint-wordmark-on-dark-.png" alt="crossmint" width="72" height="16"></div>
   </div>
 </template>
 
@@ -314,13 +314,13 @@
       <li class="sstep" data-k="enabled"><span class="ss-tx"><b>Withdrawals to bank enabled</b></span><span class="ind"></span></li>
     </ol>
     <div class="actions"><button class="btn secondary md" id="kycClose">Close</button><button class="btn buy md" id="kycRefresh"><span class="btn-label">Refresh status</span></button></div>
+    <div class="powered"><span>Powered by</span><img src="assets/brand/brand-crossmint-wordmark-on-dark-.png" alt="crossmint" width="72" height="16"></div>
   </div>
 </template>
 
 <template id="v-kycDone">
   <div class="view" data-title="Verify your identity">
-    <div class="hero ok"><span class="hero-ic"><i data-icon="check-circle" class="i24"></i></span><h3>Identity verified</h3><p>You can now withdraw to a bank account in your own name.</p></div>
-    <div class="notice success"><i data-icon="check-circle" class="i16"></i><div><b>Verified for bank withdrawals</b><p>Continuing with <span data-f="usdc">15.00</span> USDC → VND.</p></div></div>
+    <div class="hero ok"><span class="hero-ic"><i data-icon="check-circle" class="i24"></i></span><h3>Identity verified</h3><p>You can now withdraw funds to your bank account. Please make sure to use a bank account that belongs to you.</p></div>
     <button class="btn buy md wide" id="kycContinue"><span class="btn-label">Continue</span></button>
   </div>
 </template>
@@ -389,7 +389,6 @@
       <div class="info-row"><span>Processing fee</span><b data-f="fee">− 0.15 USDC</b></div>
       <div class="info-row"><span>Amount converted</span><b data-f="converted">14.85 USDC</b></div>
       <div class="info-row"><span>Exchange rate</span><b data-f="rate">1 USDC = 26,000 VND</b></div>
-      <div class="info-row"><span>Network fee</span><b>Paid from your wallet · shown when you sign</b></div>
     </div>
     <hr class="div">
     <div class="sum-row"><span>You receive</span><b data-f="vnd">386,100 VND</b></div>
@@ -426,7 +425,7 @@
   <div class="view" data-title="Withdrawal status" data-noback>
     <div class="rows">
       <div class="info-row"><span>You withdraw</span><b data-f="usdcU">15.00 USDC</b></div>
-      <div class="sum-row"><span>You receive</span><b data-f="vnd">386,100 VND</b></div>
+      <div class="sum-row" data-receive><span>You receive</span><b data-f="vnd">386,100 VND</b></div>
       <div class="info-row"><span>To</span><b data-f="bankShort">ACB •••• 4821</b></div>
       <div class="info-row"><span>Transaction ID</span><b data-f="orderId">ORD-7F3K-92QX</b></div>
     </div>
@@ -442,7 +441,7 @@
       <li class="sconn" aria-hidden="true"></li>
       <li class="sstep" data-k="sent"><span class="ss-tx"><b>Funds sent</b><small></small></span><span class="ind"></span></li>
     </ol>
-    <div class="collapsible" data-stage="1"><div class="notice info"><i data-icon="information-circle" class="i16"></i><p>USDC received does not mean money is in your bank yet. We will update you when the bank transfer is sent.</p></div></div>
+    <div class="collapsible" data-stage="1"><div><div class="notice info"><i data-icon="information-circle" class="i16"></i><p>USDC received does not mean money is in your bank yet. We will update you when the bank transfer is sent.</p></div></div></div>
     <div class="collapsible" data-stage="0 1 2"><div class="rows eta">
       <div class="info-row"><span>Estimated arrival</span><b data-f="eta">Checking estimated arrival…</b></div>
       <div class="collapsible" data-stage="2"><p class="cap t">Paid via CITAD (selected by the payout bank). Arrival time depends on your bank and the payment network. Business days exclude weekends and bank holidays.</p></div>

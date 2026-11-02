@@ -318,6 +318,9 @@ button { transition: background-color var(--t-fast) ease, color var(--t-fast) ea
 .sum-row > span { font-weight: 500; font-size: 14px; line-height: 20px; color: var(--text-primary); }
 .sum-row > b { font-weight: 600; font-size: 16px; line-height: 24px; color: var(--text-primary); font-variant-numeric: tabular-nums; }
 .rows { display: flex; flex-direction: column; gap: 8px; }
+.sum-row.compact { height: 18px; }
+.sum-row.compact > span { font-weight: 400; font-size: 12px; line-height: 18px; color: var(--text-secondary); }
+.sum-row.compact > b { font-size: 12px; line-height: 18px; }
 .rows.eta { gap: 4px; }
 .rows.eta .collapsible.is-off { margin-top: -4px; }
 .div { margin: 0; border: 0; height: 1px; background: var(--border-secondary); }
@@ -393,6 +396,7 @@ button { transition: background-color var(--t-fast) ease, color var(--t-fast) ea
 .hero-ic { width: 48px; height: 48px; border-radius: 50%; background: var(--bg-tertiary); color: var(--text-primary); display: grid; place-items: center; }
 .hero.ok .hero-ic { background: var(--bg-success); color: var(--text-success); animation: pop 320ms var(--ease-out); }
 .hero h3 { font-weight: 600; font-size: 16px; line-height: 24px; color: var(--text-primary); }
+.hero p.narrow { max-width: 406px; }
 .hero p { margin-top: -6px; font-size: 14px; line-height: 20px; color: var(--text-secondary); }
 .spin-slow svg { animation: spin 1.4s linear infinite; }
 .actions { display: flex; gap: 8px; }

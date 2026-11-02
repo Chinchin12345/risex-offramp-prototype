@@ -162,7 +162,7 @@
     if (INIT[name]) INIT[name](node, opt);
     var f = opt.focus !== undefined ? opt.focus : FOCUS[name];
     setTimeout(function () {
-      var el = f === null ? flow : (f ? $(f, node) : $('.btn.buy:not(:disabled), .option:not(.ob), .btn', node));
+      var el = f === null ? flow : (f ? $(f, node) : ($('.btn.buy:not(:disabled)', node) || $('.option:not(.ob)', node) || $('.btn', node)));
       if (el && el.focus) el.focus({ preventScroll: true });
     }, fresh ? 80 : 40);
   }
@@ -554,6 +554,7 @@
       $('[data-f="eta"]', node).textContent = stage >= 2 ? etaText(o) : 'Checking estimated arrival…';
       $('[data-f="closeNote"]', node).textContent = stage >= 3 ? 'Funds sent. You can find this withdrawal any time in Portfolio → Transactions.' : 'You can close this window. Track your withdrawal in Portfolio → Transactions.';
       node.classList.toggle('g12', stage === 1 || stage === 2);
+      $('[data-receive]', node).classList.toggle('compact', stage >= 3); // Figma 10.4 shows “You receive” as a regular row
     };
     if (animate) resize(apply); else apply();
   }
